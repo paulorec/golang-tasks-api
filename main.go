@@ -24,6 +24,7 @@ type User struct {
 var tasks []Task
 
 func main() {
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/task", GetTasks).Methods("GET")
@@ -32,6 +33,17 @@ func main() {
 	router.HandleFunc("/task/{id}", DeleteTask).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":3000", router))
+
+	addSampleData()
+}
+
+func addSampleData() {
+
+	var lebowski = &User{Id: "1", Name: "Lebowski", Email: "the@dude.com"}
+
+	tasks = append(tasks, Task{Id: "1", Text: "In a rocks glass combine vodka and coffee liqueur over ice", From: lebowski, To: lebowski})
+	tasks = append(tasks, Task{Id: "1", Text: "Add milk or cream and stir", From: lebowski, To: lebowski})
+
 }
 
 func GetTasks(w http.ResponseWriter, r *http.Request) {
